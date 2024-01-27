@@ -1,4 +1,5 @@
 import User from "../models/userModel.js";
+import bcryptjs from "bcryptjs";
 
 export const signUp = async (req, res, next) => {
   try {
@@ -12,10 +13,11 @@ export const signUp = async (req, res, next) => {
     ) {
       return res.status(400).json({ message: "All frilds are required" });
     }
+    const hashPassword = bcryptjs.hashSync(password, 10);
     await User.create({
       username,
       email,
-      password,
+      password: hashPassword,
     });
     res.status(200).json("successfully!");
   } catch (error) {
