@@ -20,6 +20,17 @@ mongoose
 //   routers
 app.use("/api/auth", authRouter);
 
+// midelware
+app.use((err, req, res) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internl Server Error!";
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
+
 app.listen(8000, () => {
   console.log("server is start");
 });
